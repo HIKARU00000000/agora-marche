@@ -262,12 +262,45 @@ footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,0.06); 
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
-  nav { padding: 16px 24px; }
+  nav { padding: 16px 20px; }
   .nav-links { display: none; }
-  section { padding: 72px 24px; }
-  #reserve, #contact { padding: 72px 24px; }
-  .hero { padding: 100px 24px 64px; }
-  .hero-ja { font-size: 28px; letter-spacing: 0.18em; }
+  section { padding: 64px 20px; }
+  #reserve, #contact { padding: 64px 20px; }
+
+  /* HERO モバイル */
+  .hero { padding: 0 20px; justify-content: center; }
+  .hero-bar { height: 64px; }
+  .hero-content { padding: 0; width: 100%; }
+  .hero-title-deco { font-size: 8px; letter-spacing: 0.35em; margin-bottom: 14px; }
+  .hero-ja {
+    font-size: clamp(32px, 9vw, 48px);
+    letter-spacing: 0.12em;
+    line-height: 1.15;
+    margin-bottom: 0;
+  }
+  .hero-sub {
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    margin-top: 14px;
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+  .hero-meta-line {
+    font-size: 8px;
+    letter-spacing: 0.3em;
+    margin-bottom: 24px;
+  }
+  .hero-cta-group { gap: 10px; }
+  .hero-cta {
+    padding: 14px 32px;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    width: 220px;
+    text-align: center;
+  }
+  .hero-scroll { display: none; }
+
+  /* その他 */
   .why-grid { grid-template-columns: 1fr 1fr; }
   .info-grid, .venue-inner { grid-template-columns: 1fr; gap: 2px; }
   .flow-steps { grid-template-columns: 1fr; }
@@ -276,6 +309,7 @@ footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,0.06); 
   footer { flex-direction: column; gap: 12px; text-align: center; }
   .hero-meta { gap: 16px; }
   .hero-divider { height: 28px; }
+  .share-fab { bottom: 20px; right: 14px; }
 }
 
 
