@@ -269,26 +269,36 @@ footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,0.06); 
 
   /* HERO モバイル */
   .hero { padding: 0 20px; justify-content: center; }
-  .hero-bar { height: 64px; }
+  .hero-bar { height: 56px; }
+  .hero-bg-img {
+    animation: none !important;
+    object-position: center 55%;
+    transform: none !important;
+  }
+  .hero-overlay {
+    background:
+      linear-gradient(to bottom, rgba(0,0,0,0.28) 0%, rgba(0,0,0,0.08) 30%, rgba(0,0,0,0.08) 60%, rgba(0,0,0,0.55) 100%);
+  }
   .hero-content { padding: 0; width: 100%; }
-  .hero-title-deco { font-size: 8px; letter-spacing: 0.35em; margin-bottom: 14px; }
+  .hero-title-deco { font-size: 7px; letter-spacing: 0.28em; margin-bottom: 12px; }
   .hero-ja {
-    font-size: clamp(32px, 9vw, 48px);
-    letter-spacing: 0.12em;
+    font-size: clamp(30px, 9vw, 46px);
+    letter-spacing: 0.1em;
     line-height: 1.15;
     margin-bottom: 0;
   }
   .hero-sub {
-    font-size: 12px;
-    letter-spacing: 0.12em;
-    margin-top: 14px;
-    margin-bottom: 28px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    margin-top: 12px;
+    margin-bottom: 20px;
     line-height: 1.6;
   }
   .hero-meta-line {
-    font-size: 8px;
-    letter-spacing: 0.3em;
-    margin-bottom: 24px;
+    font-size: 7px;
+    letter-spacing: 0.18em;
+    margin-bottom: 20px;
+    white-space: nowrap;
   }
   .hero-cta-group { gap: 10px; }
   .hero-cta {
