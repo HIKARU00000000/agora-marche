@@ -108,6 +108,16 @@ nav {
   backdrop-filter: blur(4px);
 }
 .hero-cta:hover { background: rgba(196,168,130,0.12); border-color: rgba(196,168,130,0.9); }
+.hero-cta-primary {
+  background: var(--mid);
+  border-color: var(--mid);
+  color: var(--dark);
+  padding: 18px 64px;
+  font-size: 11px;
+  letter-spacing: 0.35em;
+  font-weight: 600;
+}
+.hero-cta-primary:hover { background: #b8935a; border-color: #b8935a; }
 .hero-scroll {
   position: absolute; bottom: 108px; left: 50%; transform: translateX(-50%);
   display: flex; flex-direction: column; align-items: center; gap: 8px;
@@ -580,8 +590,7 @@ footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,0.06); 
     <p class="hero-sub">一杯のコーヒーから、始まる恋もある。</p>
     <p class="hero-meta-line">Nagoya &nbsp;·&nbsp; September 12 &amp; 13, 2026</p>
     <div class="hero-cta-group">
-      <a href="#info" class="hero-cta">開催情報 &nbsp;→</a>
-      <a href="#reserve" class="hero-cta">予約する &nbsp;→</a>
+      <a href="#reserve" class="hero-cta hero-cta-primary">予約する &nbsp;→</a>
     </div>
   </div>
   <div class="hero-scroll">
