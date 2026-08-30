@@ -227,6 +227,20 @@ section { padding: 100px 48px; }
 .reserve-coming p { font-family: 'Montserrat', sans-serif; font-size: 10px; letter-spacing: 0.25em; color: rgba(250,246,241,0.3); text-transform: uppercase; margin-bottom: 12px; }
 .reserve-coming h3 { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: rgba(250,246,241,0.45); font-style: italic; }
 .reserve-note { margin-top: 32px; font-size: 12px; font-weight: 300; color: rgba(250,246,241,0.3); line-height: 2; }
+.reserve-countdown { margin-bottom: 44px; }
+.countdown-label { font-family: 'Montserrat', sans-serif; font-size: 10px; letter-spacing: 0.3em; color: rgba(250,246,241,0.35); text-transform: uppercase; margin-bottom: 20px; }
+.countdown-grid { display: flex; align-items: flex-start; justify-content: center; }
+.countdown-item { display: flex; flex-direction: column; align-items: center; min-width: 88px; }
+.countdown-num { font-family: 'Cormorant Garamond', serif; font-size: clamp(52px, 7vw, 76px); font-weight: 300; color: var(--cream); line-height: 1; }
+.countdown-unit { font-family: 'Montserrat', sans-serif; font-size: 9px; letter-spacing: 0.25em; color: rgba(250,246,241,0.3); text-transform: uppercase; margin-top: 8px; }
+.countdown-sep { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300; color: rgba(196,168,130,0.35); line-height: 1; padding: 0 2px; }
+.reserve-scarcity { margin-bottom: 48px; }
+.scarcity-bar-wrap { width: 220px; height: 1px; background: rgba(250,246,241,0.1); margin: 0 auto 14px; overflow: hidden; }
+.scarcity-bar { height: 100%; width: 78%; background: linear-gradient(to right, #C4A862, #E8D5A3); }
+.scarcity-text { font-family: 'Montserrat', sans-serif; font-size: 9px; letter-spacing: 0.22em; color: #C4A862; text-transform: uppercase; }
+@keyframes pulse-ring { 0% { transform: scale(1); opacity: 0.5; } 100% { transform: scale(1.2); opacity: 0; } }
+.reserve-btn-pulse { position: relative; }
+.reserve-btn-pulse::before { content: ''; position: absolute; inset: -7px; border-radius: 44px; border: 1px solid rgba(196,168,130,0.45); animation: pulse-ring 2.2s ease-out infinite; }
 
 /* VENUE */
 #venue { background: var(--white); }
@@ -732,7 +746,23 @@ footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,0.06); 
   <div class="reserve-inner">
     <p class="section-eyebrow reveal">Reservation</p>
     <h2 class="section-title reveal">予約する</h2>
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSefy_wA1njOf9eJVLLLuenj8aejwlylnMNXpvzZNukfvfvhKQ/viewform?usp=header" target="_blank" class="reserve-btn reveal">
+    <div class="reserve-countdown reveal">
+      <p class="countdown-label">開催まで</p>
+      <div class="countdown-grid">
+        <div class="countdown-item"><span class="countdown-num" id="cd-days">--</span><span class="countdown-unit">Days</span></div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-item"><span class="countdown-num" id="cd-hours">--</span><span class="countdown-unit">Hrs</span></div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-item"><span class="countdown-num" id="cd-mins">--</span><span class="countdown-unit">Min</span></div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-item"><span class="countdown-num" id="cd-secs">--</span><span class="countdown-unit">Sec</span></div>
+      </div>
+    </div>
+    <div class="reserve-scarcity reveal">
+      <div class="scarcity-bar-wrap"><div class="scarcity-bar"></div></div>
+      <p class="scarcity-text">残席わずか — お早めにご予約ください</p>
+    </div>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSefy_wA1njOf9eJVLLLuenj8aejwlylnMNXpvzZNukfvfvhKQ/viewform?usp=header" target="_blank" class="reserve-btn reserve-btn-pulse reveal">
       予約フォームへ進む &nbsp;→
     </a>
     <p class="reserve-note reveal">ご予約後に来場できなくなった場合は<br>Instagram DMにてご連絡ください。</p>
@@ -883,6 +913,25 @@ footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,0.06); 
 </footer>
 
 <script>
+// Countdown timer
+(function() {
+  var target = new Date('2026-09-12T11:00:00+09:00');
+  function pad(n) { return String(n).padStart(2, '0'); }
+  function update() {
+    var diff = target - new Date();
+    if (diff <= 0) {
+      ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(function(id){ document.getElementById(id).textContent = '00'; });
+      return;
+    }
+    document.getElementById('cd-days').textContent  = pad(Math.floor(diff / 86400000));
+    document.getElementById('cd-hours').textContent = pad(Math.floor((diff % 86400000) / 3600000));
+    document.getElementById('cd-mins').textContent  = pad(Math.floor((diff % 3600000) / 60000));
+    document.getElementById('cd-secs').textContent  = pad(Math.floor((diff % 60000) / 1000));
+  }
+  update();
+  setInterval(update, 1000);
+})();
+
 // Scroll reveal
 const reveals = document.querySelectorAll('.reveal');
 const obs = new IntersectionObserver((entries) => {
