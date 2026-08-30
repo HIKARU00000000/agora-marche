@@ -230,9 +230,9 @@ section { padding: 100px 48px; }
 .reserve-countdown { margin-bottom: 44px; }
 .countdown-label { font-family: 'Montserrat', sans-serif; font-size: 10px; letter-spacing: 0.3em; color: rgba(250,246,241,0.35); text-transform: uppercase; margin-bottom: 20px; }
 .countdown-grid { display: flex; align-items: flex-start; justify-content: center; }
-.countdown-item { display: flex; flex-direction: column; align-items: center; min-width: 88px; }
+.countdown-item { display: flex; flex-direction: row; align-items: baseline; gap: 10px; }
 .countdown-num { font-family: 'Cormorant Garamond', serif; font-size: clamp(52px, 7vw, 76px); font-weight: 300; color: var(--cream); line-height: 1; }
-.countdown-unit { font-family: 'Montserrat', sans-serif; font-size: 9px; letter-spacing: 0.25em; color: rgba(250,246,241,0.3); text-transform: uppercase; margin-top: 8px; }
+.countdown-unit { font-family: 'Noto Sans JP', sans-serif; font-size: 16px; font-weight: 300; color: rgba(250,246,241,0.5); }
 .countdown-sep { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300; color: rgba(196,168,130,0.35); line-height: 1; padding: 0 2px; }
 .reserve-scarcity { margin-bottom: 48px; }
 .scarcity-bar-wrap { width: 220px; height: 1px; background: rgba(250,246,241,0.1); margin: 0 auto 14px; overflow: hidden; }
@@ -749,7 +749,7 @@ footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,0.06); 
     <div class="reserve-countdown reveal">
       <p class="countdown-label">開催まで</p>
       <div class="countdown-grid">
-        <div class="countdown-item"><span class="countdown-num" id="cd-days">--</span><span class="countdown-unit">Days</span></div>
+        <div class="countdown-item"><span class="countdown-num" id="cd-days">--</span><span class="countdown-unit">日</span></div>
       </div>
     </div>
     <div class="reserve-scarcity reveal">
