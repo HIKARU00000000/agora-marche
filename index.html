@@ -283,9 +283,13 @@ footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,0.06); 
   .hero-bar { height: 56px; }
   .hero-bg-img {
     animation: none !important;
-    object-position: 50% 25%;
-    transform: scale(0.68);
-    transform-origin: 50% 25%;
+    position: absolute;
+    left: 0;
+    top: 10%;
+    width: 100%;
+    height: auto;
+    object-fit: unset;
+    transform: none;
   }
   .hero-overlay {
     background:
