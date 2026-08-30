@@ -606,26 +606,16 @@ footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,0.06); 
 /* 会場写真：縦画面スタッガードレイアウト */
 @media (max-width: 768px) and (orientation: portrait) {
   .venue-photo-grid {
-    display: block !important;
-    position: relative;
     margin-bottom: 40px !important;
-    padding-bottom: 80px;
   }
-  .venue-photo-grid .photo-item:first-child {
-    width: 65%;
-    height: 180px !important;
-    margin-left: 0;
-    position: relative;
-    z-index: 1;
+  .venue-photo-grid .photo-item {
+    height: auto !important;
+    border-radius: 4px;
   }
-  .venue-photo-grid .photo-item:last-child {
-    width: 88%;
-    height: 280px !important;
-    margin-left: auto;
-    margin-top: -60px;
-    position: relative;
-    z-index: 2;
-    box-shadow: -8px 8px 28px rgba(5,3,5,0.3);
+  .venue-photo-grid .photo-item img {
+    height: auto !important;
+    width: 100%;
+    object-fit: contain !important;
   }
 }
 </style>
