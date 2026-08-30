@@ -750,12 +750,6 @@ footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,0.06); 
       <p class="countdown-label">開催まで</p>
       <div class="countdown-grid">
         <div class="countdown-item"><span class="countdown-num" id="cd-days">--</span><span class="countdown-unit">Days</span></div>
-        <div class="countdown-sep">:</div>
-        <div class="countdown-item"><span class="countdown-num" id="cd-hours">--</span><span class="countdown-unit">Hrs</span></div>
-        <div class="countdown-sep">:</div>
-        <div class="countdown-item"><span class="countdown-num" id="cd-mins">--</span><span class="countdown-unit">Min</span></div>
-        <div class="countdown-sep">:</div>
-        <div class="countdown-item"><span class="countdown-num" id="cd-secs">--</span><span class="countdown-unit">Sec</span></div>
       </div>
     </div>
     <div class="reserve-scarcity reveal">
@@ -919,17 +913,10 @@ footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,0.06); 
   function pad(n) { return String(n).padStart(2, '0'); }
   function update() {
     var diff = target - new Date();
-    if (diff <= 0) {
-      ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(function(id){ document.getElementById(id).textContent = '00'; });
-      return;
-    }
-    document.getElementById('cd-days').textContent  = pad(Math.floor(diff / 86400000));
-    document.getElementById('cd-hours').textContent = pad(Math.floor((diff % 86400000) / 3600000));
-    document.getElementById('cd-mins').textContent  = pad(Math.floor((diff % 3600000) / 60000));
-    document.getElementById('cd-secs').textContent  = pad(Math.floor((diff % 60000) / 1000));
+    document.getElementById('cd-days').textContent = diff <= 0 ? '00' : pad(Math.floor(diff / 86400000));
   }
   update();
-  setInterval(update, 1000);
+  setInterval(update, 60000);
 })();
 
 // Scroll reveal
