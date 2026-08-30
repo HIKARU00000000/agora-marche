@@ -283,17 +283,12 @@ footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,0.06); 
   .hero-bar { height: 56px; }
   .hero-bg-img {
     animation: none !important;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: auto;
-    object-fit: unset;
-    transform: none;
+    object-fit: cover;
+    object-position: 68% 22%;
   }
   .hero-overlay {
     background:
-      linear-gradient(to bottom, rgba(5,3,5,0.92) 0%, rgba(5,3,5,0.55) 20%, rgba(5,3,5,0.55) 50%, rgba(5,3,5,0.92) 70%, rgba(5,3,5,0.98) 100%);
+      linear-gradient(to bottom, rgba(5,3,5,0.78) 0%, rgba(5,3,5,0.72) 30%, rgba(5,3,5,0.80) 60%, rgba(5,3,5,0.96) 100%);
   }
   .hero-content { padding: 0; width: 100%; }
   .hero-title-deco { font-size: 7px; letter-spacing: 0.28em; margin-bottom: 12px; }
@@ -551,6 +546,11 @@ footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,0.06); 
     color: var(--dark);
   }
 
+@media (max-width: 768px) and (orientation: landscape) {
+  .hero-bg-img {
+    object-position: 50% 25%;
+  }
+}
 </style>
 </head>
 <body>
