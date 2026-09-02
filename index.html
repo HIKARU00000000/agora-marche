@@ -913,7 +913,7 @@ footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,0.06); 
   function pad(n) { return String(n).padStart(2, '0'); }
   function update() {
     var diff = target - new Date();
-    document.getElementById('cd-days').textContent = diff <= 0 ? '00' : pad(Math.floor(diff / 86400000));
+    document.getElementById('cd-days').textContent = diff <= 0 ? '00' : pad(Math.ceil(diff / 86400000));
   }
   update();
   setInterval(update, 60000);
