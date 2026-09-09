@@ -86,9 +86,20 @@ nav {
   font-weight: 500;
   letter-spacing: 0.18em;
   line-height: 1.1;
-  margin-bottom: 48px;
+  margin-bottom: 0;
   color: #FFFFFF;
   text-shadow: 0 2px 16px rgba(0,0,0,0.85), 0 4px 48px rgba(0,0,0,0.6);
+}
+.hero-sub {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: clamp(14px, 1.5vw, 18px);
+  font-weight: 400;
+  color: rgba(250,246,241,0.9);
+  letter-spacing: 0.15em;
+  margin-top: 24px;
+  margin-bottom: 40px;
+  line-height: 1;
+  text-shadow: 0 1px 12px rgba(0,0,0,0.9), 0 2px 24px rgba(0,0,0,0.7);
 }
 .hero-meta-line {
   font-family: 'Montserrat', sans-serif;
@@ -315,8 +326,15 @@ footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,0.06); 
     font-size: clamp(42px, 12.4vw, 54px);
     letter-spacing: 0.1em;
     line-height: 1.15;
-    margin-bottom: 32px;
+    margin-bottom: 0;
     text-shadow: 0 2px 16px rgba(0,0,0,0.85), 0 4px 48px rgba(0,0,0,0.6);
+  }
+  .hero-sub {
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    margin-top: 14px;
+    margin-bottom: 22px;
+    line-height: 1.6;
   }
   .hero-meta-line {
     font-size: 8px;
@@ -663,6 +681,7 @@ footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,0.06); 
   <div class="hero-bar hero-bar-bottom"></div>
   <div class="hero-content">
     <h1 class="hero-ja">AGORA<br>MARCHÉ</h1>
+    <p class="hero-sub">一杯のコーヒーと、新しい出会いを。</p>
     <p class="hero-meta-line">Nagoya &nbsp;·&nbsp; September 12 &amp; 13, 2026</p>
     <div class="hero-cta-group">
       <a href="#reserve" class="hero-cta hero-cta-primary">予約する &nbsp;→</a>
