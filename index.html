@@ -188,11 +188,14 @@ section { padding: 100px 48px; }
 #flow { background: var(--cream); }
 #flow .section-eyebrow { color: var(--mid); }
 #flow .section-title { color: var(--dark); }
-.flow-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid rgba(139,99,72,0.15); }
-.flow-step { padding: 48px 40px; border-right: 1px solid rgba(139,99,72,0.15); }
-.flow-step:last-child { border-right: none; }
+.flow-steps { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; border-top: 1px solid rgba(139,99,72,0.15); }
+.flow-step { padding: 48px 40px; border-right: 1px solid rgba(139,99,72,0.15); border-bottom: 1px solid rgba(139,99,72,0.15); }
+.flow-step:nth-child(2n) { border-right: none; }
+.flow-step:nth-last-child(-n+2) { border-bottom: none; }
 .flow-num { font-family: 'Cormorant Garamond', serif; font-size: 64px; font-weight: 300; color: var(--mid); line-height: 1; margin-bottom: 20px; }
-.flow-title { font-size: 16px; font-weight: 500; color: var(--dark); margin-bottom: 12px; letter-spacing: 0.05em; }
+.flow-title { font-size: 16px; font-weight: 500; color: var(--dark); margin-bottom: 14px; letter-spacing: 0.05em; }
+.flow-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.flow-tag { display: inline-block; padding: 4px 10px; font-size: 11px; letter-spacing: 0.05em; color: var(--mid); background: rgba(139,99,72,0.08); border: 1px solid rgba(139,99,72,0.2); border-radius: 999px; }
 .flow-text { font-size: 13px; font-weight: 300; color: var(--muted); line-height: 2.1; }
 
 /* TICKET */
@@ -357,6 +360,7 @@ footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,0.06); 
   .info-grid, .venue-inner { grid-template-columns: 1fr; gap: 2px; }
   .flow-steps { grid-template-columns: 1fr; }
   .flow-step { border-right: none; border-bottom: 1px solid rgba(139,99,72,0.15); }
+  .flow-step:last-child { border-bottom: none; }
   .ticket-grid { grid-template-columns: 1fr; }
   footer { flex-direction: column; gap: 12px; text-align: center; }
   .hero-meta { gap: 16px; }
@@ -783,18 +787,40 @@ footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,0.06); 
         <div class="flow-steps">
       <div class="flow-step reveal">
         <p class="flow-num">01</p>
-        <p class="flow-title">受付・入場</p>
-        <p class="flow-text">受付で入場料¥1,000をお支払いください。支払いは現金・PayPayのみ対応しております。入場後は自由に会場内をお楽しみください。</p>
+        <p class="flow-title">まずは、気軽に来てみる</p>
+        <div class="flow-tags">
+          <span class="flow-tag">¥1,000（事前予約）</span>
+          <span class="flow-tag">途中参加OK</span>
+        </div>
+        <p class="flow-text">事前予約で入場¥1,000。「試しに行ってみようかな」の気持ちで大丈夫です。最終受付は15:00までなので、ゆっくり準備して来ても間に合います。予定より遅れそうな時のご連絡も不要。ひとりで来られる方が多いイベントなので、初めてでも自然に溶け込めます。</p>
       </div>
       <div class="flow-step reveal reveal-d1">
         <p class="flow-num">02</p>
-        <p class="flow-title">マルシェを楽しむ</p>
-        <p class="flow-text">個性豊かなお店が並ぶ会場をゆっくり歩きながら、気になるお店に立ち寄ってみてください。出店者との何気ない会話や、隣で同じものを選んでいる誰かとの一言が、出会いのきっかけになるかもしれません。</p>
+        <p class="flow-title">マルシェそのものを、楽しむ</p>
+        <div class="flow-tags">
+          <span class="flow-tag">11:00〜16:00</span>
+          <span class="flow-tag">スイーツ・ドリンク</span>
+          <span class="flow-tag">お酒なしOK</span>
+        </div>
+        <p class="flow-text">こだわりのスイーツやドリンク、個性豊かなお店が並ぶ会場を、気の向くままに歩いてみてください。「今日は美味しいものが食べたいだけ」——そんな入り方でも大丈夫。マルシェを楽しみに来ていただくのが、いちばん肩の力が抜けた過ごし方です。</p>
       </div>
       <div class="flow-step reveal reveal-d2">
         <p class="flow-num">03</p>
-        <p class="flow-title">自然につながる</p>
-        <p class="flow-text">話してみたら気が合った、同じお店が好きだった——そんな共通点から会話が弾んで、気づけば「このあとどこか行く？」。昼のマルシェだからこそ、出会いのその先まで楽しめます。</p>
+        <p class="flow-title">気の合う人と、自然に</p>
+        <div class="flow-tags">
+          <span class="flow-tag">恋愛だけじゃない</span>
+          <span class="flow-tag">友達もOK</span>
+        </div>
+        <p class="flow-text">隣で同じスイーツを選んでいた、気になっていたお店が同じだった——そんな小さな共通点から、会話は自然にはじまります。「素敵な人と出会えたら」も、「気の合う友達ができたら」も、どちらも同じくらい嬉しい出会い。目的は人それぞれで大丈夫です。</p>
+      </div>
+      <div class="flow-step reveal reveal-d3">
+        <p class="flow-num">04</p>
+        <p class="flow-title">その先まで、大須で</p>
+        <div class="flow-tags">
+          <span class="flow-tag">〜16:00 終演</span>
+          <span class="flow-tag">大須散策</span>
+        </div>
+        <p class="flow-text">お昼のイベントだから、終わったあとの時間もたっぷり残ります。「このあと、少しだけお茶していく？」がそのまま次の予定に変わることも。夜のイベントと違って、お酒が苦手でも、翌日に予定があっても安心。帰り道までがイベントの続きです。</p>
       </div>
     </div>
   </div>
