@@ -997,30 +997,47 @@ footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,0.06); 
       // 開催期間中
       var isEventToday = EVENT_DATES.indexOf(today) !== -1;
       var isLastDay = today === lastDay;
+      // 事前予約は各日程の前日まで → まだ予約可能な未来の日程があるか
+      var reservable = futureDates.length > 0;
 
       elNum.style.display = 'none';
       elUnit.style.fontSize = '32px';
       elUnit.style.letterSpacing = '0.15em';
 
       if (isEventToday && isLastDay) {
+        // 最終日: 事前予約は前日で締切済み
         elLabel.textContent = '本日 最終日';
         elUnit.textContent = 'OPEN 11:00 〜 16:00';
-        elNote.textContent = '最終受付 15:00 まで / 事前予約なしのご来場もOKです';
+        elNote.innerHTML = '事前予約は昨日で締切ました。<br>当日はそのまま会場までお越しください（最終受付 15:00）';
       } else if (isEventToday) {
+        // 開催日その1: 翌日以降の事前予約はまだ可能
         elLabel.textContent = '本日 開催中';
         elUnit.textContent = 'OPEN 11:00 〜 16:00';
-        if (futureDates.length > 0) {
-          elNote.innerHTML = '明日 ' + fmtDate(futureDates[0]) + ' の事前予約はまだ受付中です';
+        if (reservable) {
+          elNote.innerHTML = '明日 ' + fmtDate(futureDates[0]) + ' の事前予約はまだ受付中です（本日中まで）';
         } else {
           elNote.textContent = '';
         }
       } else {
-        // 開催期間内だが今日は開催日ではない (2日連続じゃない場合)
+        // 期間内で今日は開催日ではない
         elLabel.textContent = '次回開催';
         elUnit.textContent = fmtDate(futureDates[0]);
         elNote.textContent = '事前予約 受付中';
       }
-      if (elScar) elScar.textContent = '当日15:00までのご来場で受付可能';
+
+      if (elScar) {
+        elScar.textContent = reservable
+          ? '明日開催分 事前予約 受付中'
+          : '事前予約は締切りました — 当日ご来場ください';
+      }
+
+      // 予約可能な日程が残っていない場合はCTAを停止
+      if (!reservable && elBtn) {
+        elBtn.classList.add('is-ended');
+        elBtn.classList.remove('reserve-btn-pulse');
+        elBtn.innerHTML = '事前予約は締切りました';
+        elBtn.removeAttribute('href');
+      }
       return;
     }
 
