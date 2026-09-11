@@ -955,12 +955,16 @@ footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,0.06); 
   var d = function(date, time) { return new Date(date + 'T' + time + ':00+09:00'); };
   var day1Start = d(EVENT_DATES[0], '00:00');
   var lastDay   = EVENT_DATES[EVENT_DATES.length - 1];
-  var eventEnd  = d(lastDay, CLOSE_TIME);
+  // 全日程終了は最終日の 24:00 JST (= 翌日 00:00 JST) に切り替え
+  var eventEnd  = new Date(d(lastDay, '00:00').getTime() + 86400000);
 
   function pad(n) { return String(n).padStart(2, '0'); }
+  // Intl.DateTimeFormat で JST の日付を YYYY-MM-DD で確実に取得
   function todayJst() {
-    var now = new Date();
-    return new Date(now.toLocaleString('en-US', {timeZone: 'Asia/Tokyo'})).toISOString().slice(0, 10);
+    return new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'Asia/Tokyo',
+      year: 'numeric', month: '2-digit', day: '2-digit'
+    }).format(new Date());
   }
   function fmtDate(iso) {
     var parts = iso.split('-');
