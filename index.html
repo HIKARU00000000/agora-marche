@@ -255,6 +255,9 @@ section { padding: 100px 48px; }
 .scarcity-bar-wrap { width: 220px; height: 1px; background: rgba(250,246,241,0.1); margin: 0 auto 14px; overflow: hidden; }
 .scarcity-bar { height: 100%; width: 78%; background: linear-gradient(to right, #C4A862, #E8D5A3); }
 .scarcity-text { font-family: 'Montserrat', sans-serif; font-size: 9px; letter-spacing: 0.22em; color: #C4A862; text-transform: uppercase; }
+.countdown-note { margin-top: 18px; font-size: 13px; font-weight: 400; letter-spacing: 0.06em; color: rgba(196,168,130,0.9); line-height: 1.7; }
+.countdown-note:empty { display: none; }
+.reserve-btn.is-ended { pointer-events: none; opacity: 0.35; background: rgba(196,168,130,0.5); }
 @keyframes pulse-ring { 0% { transform: scale(1); opacity: 0.5; } 100% { transform: scale(1.2); opacity: 0; } }
 .reserve-btn-pulse { position: relative; }
 .reserve-btn-pulse::before { content: ''; position: absolute; inset: -7px; border-radius: 44px; border: 1px solid rgba(196,168,130,0.45); animation: pulse-ring 2.2s ease-out infinite; }
@@ -759,16 +762,17 @@ footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,0.06); 
     <p class="section-eyebrow reveal">Reservation</p>
     <h2 class="section-title reveal">予約する</h2>
     <div class="reserve-countdown reveal">
-      <p class="countdown-label">開催まで</p>
+      <p class="countdown-label" id="cd-label">開催まで</p>
       <div class="countdown-grid">
-        <div class="countdown-item"><span class="countdown-num" id="cd-days">--</span><span class="countdown-unit">日</span></div>
+        <div class="countdown-item"><span class="countdown-num" id="cd-days">--</span><span class="countdown-unit" id="cd-unit">日</span></div>
       </div>
+      <p class="countdown-note" id="cd-note"></p>
     </div>
     <div class="reserve-scarcity reveal">
       <div class="scarcity-bar-wrap"><div class="scarcity-bar"></div></div>
-      <p class="scarcity-text">残席わずか — お早めにご予約ください</p>
+      <p class="scarcity-text" id="scarcity-text">残席わずか — お早めにご予約ください</p>
     </div>
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSefy_wA1njOf9eJVLLLuenj8aejwlylnMNXpvzZNukfvfvhKQ/viewform?usp=header" target="_blank" class="reserve-btn reserve-btn-pulse reveal">
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSefy_wA1njOf9eJVLLLuenj8aejwlylnMNXpvzZNukfvfvhKQ/viewform?usp=header" target="_blank" class="reserve-btn reserve-btn-pulse reveal" id="reserve-btn">
       予約フォームへ進む &nbsp;→
     </a>
     <p class="reserve-note reveal">ご予約後に来場できなくなった場合は<br>Instagram DMにてご連絡ください。</p>
@@ -941,13 +945,99 @@ footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,0.06); 
 </footer>
 
 <script>
-// Countdown timer
+// Countdown / event-state driver
 (function() {
-  var target = new Date('2026-09-12T11:00:00+09:00');
+  // 会場スケジュール (JST) — 開催日を追加するとサイトが自動で状態遷移する
+  var EVENT_DATES = ['2026-09-12', '2026-09-13'];
+  var LAST_ENTRY  = '15:00';
+  var CLOSE_TIME  = '16:00';
+
+  var d = function(date, time) { return new Date(date + 'T' + time + ':00+09:00'); };
+  var day1Start = d(EVENT_DATES[0], '00:00');
+  var lastDay   = EVENT_DATES[EVENT_DATES.length - 1];
+  var eventEnd  = d(lastDay, CLOSE_TIME);
+
   function pad(n) { return String(n).padStart(2, '0'); }
+  function todayJst() {
+    var now = new Date();
+    return new Date(now.toLocaleString('en-US', {timeZone: 'Asia/Tokyo'})).toISOString().slice(0, 10);
+  }
+  function fmtDate(iso) {
+    var parts = iso.split('-');
+    var m = Number(parts[1]), day = Number(parts[2]);
+    var wk = ['日','月','火','水','木','金','土'][new Date(iso + 'T00:00:00+09:00').getDay()];
+    return m + '/' + day + '(' + wk + ')';
+  }
+
+  var elLabel = document.getElementById('cd-label');
+  var elNum   = document.getElementById('cd-days');
+  var elUnit  = document.getElementById('cd-unit');
+  var elNote  = document.getElementById('cd-note');
+  var elScar  = document.getElementById('scarcity-text');
+  var elBtn   = document.getElementById('reserve-btn');
+  var btnOriginalText = elBtn ? elBtn.innerHTML : '';
+
   function update() {
-    var diff = target - new Date();
-    document.getElementById('cd-days').textContent = diff <= 0 ? '00' : pad(Math.ceil(diff / 86400000));
+    var now = new Date();
+    var today = todayJst();
+    var futureDates = EVENT_DATES.filter(function(dt) { return dt > today; });
+
+    if (now < day1Start) {
+      // 開催前: 通常カウントダウン
+      var days = Math.ceil((day1Start - now) / 86400000);
+      elLabel.textContent = '開催まで';
+      elNum.style.display = '';
+      elNum.textContent = pad(days);
+      elUnit.textContent = '日';
+      elNote.textContent = '';
+      return;
+    }
+
+    if (now < eventEnd) {
+      // 開催期間中
+      var isEventToday = EVENT_DATES.indexOf(today) !== -1;
+      var isLastDay = today === lastDay;
+
+      elNum.style.display = 'none';
+      elUnit.style.fontSize = '32px';
+      elUnit.style.letterSpacing = '0.15em';
+
+      if (isEventToday && isLastDay) {
+        elLabel.textContent = '本日 最終日';
+        elUnit.textContent = 'OPEN 11:00 〜 16:00';
+        elNote.textContent = '最終受付 15:00 まで / 事前予約なしのご来場もOKです';
+      } else if (isEventToday) {
+        elLabel.textContent = '本日 開催中';
+        elUnit.textContent = 'OPEN 11:00 〜 16:00';
+        if (futureDates.length > 0) {
+          elNote.innerHTML = '明日 ' + fmtDate(futureDates[0]) + ' の事前予約はまだ受付中です';
+        } else {
+          elNote.textContent = '';
+        }
+      } else {
+        // 開催期間内だが今日は開催日ではない (2日連続じゃない場合)
+        elLabel.textContent = '次回開催';
+        elUnit.textContent = fmtDate(futureDates[0]);
+        elNote.textContent = '事前予約 受付中';
+      }
+      if (elScar) elScar.textContent = '当日15:00までのご来場で受付可能';
+      return;
+    }
+
+    // 終了後
+    elLabel.textContent = 'THANK YOU';
+    elNum.style.display = 'none';
+    elUnit.style.fontSize = '20px';
+    elUnit.style.letterSpacing = '0.1em';
+    elUnit.textContent = 'ご来場ありがとうございました';
+    elNote.textContent = '次回開催情報はInstagramにて';
+    if (elScar) elScar.textContent = '';
+    if (elBtn) {
+      elBtn.classList.add('is-ended');
+      elBtn.classList.remove('reserve-btn-pulse');
+      elBtn.innerHTML = '次回開催まで受付を停止しています';
+      elBtn.removeAttribute('href');
+    }
   }
   update();
   setInterval(update, 60000);
