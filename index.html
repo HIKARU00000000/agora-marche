@@ -255,8 +255,13 @@ section { padding: 100px 48px; }
 .scarcity-bar-wrap { width: 220px; height: 1px; background: rgba(250,246,241,0.1); margin: 0 auto 14px; overflow: hidden; }
 .scarcity-bar { height: 100%; width: 78%; background: linear-gradient(to right, #C4A862, #E8D5A3); }
 .scarcity-text { font-family: 'Montserrat', sans-serif; font-size: 9px; letter-spacing: 0.22em; color: #C4A862; text-transform: uppercase; }
-.countdown-note { margin-top: 18px; font-size: 13px; font-weight: 400; letter-spacing: 0.06em; color: rgba(196,168,130,0.9); line-height: 1.7; }
+.countdown-note { margin-top: 18px; font-size: 12px; font-weight: 400; letter-spacing: 0.02em; color: rgba(196,168,130,0.9); line-height: 1.7; white-space: nowrap; }
 .countdown-note:empty { display: none; }
+.countdown-unit.is-message { font-size: clamp(20px, 4.2vw, 28px); letter-spacing: 0.08em; white-space: nowrap; }
+@media (max-width: 420px) {
+  .countdown-note { font-size: 11px; letter-spacing: 0; }
+  .countdown-unit.is-message { font-size: 19px; letter-spacing: 0.04em; }
+}
 .reserve-btn.is-ended { pointer-events: none; opacity: 0.35; background: rgba(196,168,130,0.5); }
 @keyframes pulse-ring { 0% { transform: scale(1); opacity: 0.5; } 100% { transform: scale(1.2); opacity: 0; } }
 .reserve-btn-pulse { position: relative; }
@@ -1004,34 +1009,26 @@ footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,0.06); 
       // 事前予約は各日程の前日まで → まだ予約可能な未来の日程があるか
       var reservable = futureDates.length > 0;
 
+      elNum.style.display = 'none';
+      elUnit.classList.add('is-message');
+
       if (isEventToday && isLastDay) {
         // 最終日: 事前予約は前日で締切済み
         elLabel.textContent = '本日 最終日';
-        elNum.style.display = '';
-        elNum.textContent = 'OPEN';
-        elUnit.style.fontSize = '';
-        elUnit.style.letterSpacing = '';
-        elUnit.textContent = '11:00 〜 16:00';
-        elNote.textContent = '事前予約は昨日で締切 — 当日ご来場OK';
+        elUnit.textContent = 'OPEN 11:00 〜 16:00';
+        elNote.innerHTML = '事前予約は昨日で締切ました。<br>当日はそのまま会場までお越しください（最終受付 15:00）';
       } else if (isEventToday) {
         // 開催日その1: 翌日以降の事前予約はまだ可能
         elLabel.textContent = '本日 開催中';
-        elNum.style.display = '';
-        elNum.textContent = 'OPEN';
-        elUnit.style.fontSize = '';
-        elUnit.style.letterSpacing = '';
-        elUnit.textContent = '11:00 〜 16:00';
+        elUnit.textContent = 'OPEN 11:00 〜 16:00';
         if (reservable) {
-          elNote.textContent = '明日 ' + fmtDate(futureDates[0]) + ' の事前予約 本日中まで';
+          elNote.innerHTML = '明日 ' + fmtDate(futureDates[0]) + ' の事前予約はまだ受付中です（本日中まで）';
         } else {
           elNote.textContent = '';
         }
       } else {
         // 期間内で今日は開催日ではない
         elLabel.textContent = '次回開催';
-        elNum.style.display = 'none';
-        elUnit.style.fontSize = '32px';
-        elUnit.style.letterSpacing = '0.15em';
         elUnit.textContent = fmtDate(futureDates[0]);
         elNote.textContent = '事前予約 受付中';
       }
@@ -1055,6 +1052,7 @@ footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,0.06); 
     // 終了後
     elLabel.textContent = 'THANK YOU';
     elNum.style.display = 'none';
+    elUnit.classList.remove('is-message');
     elUnit.style.fontSize = '20px';
     elUnit.style.letterSpacing = '0.1em';
     elUnit.textContent = 'ご来場ありがとうございました';
