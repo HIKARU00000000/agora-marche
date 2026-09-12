@@ -956,6 +956,8 @@ footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,0.06); 
   var EVENT_DATES = ['2026-09-12', '2026-09-13'];
   var LAST_ENTRY  = '15:00';
   var CLOSE_TIME  = '16:00';
+  // 事前予約の受付締切時刻 (各開催日の当日午前まで受付)
+  var RESERVE_CUTOFF_TIME = '09:00';
 
   var d = function(date, time) { return new Date(date + 'T' + time + ':00+09:00'); };
   var day1Start = d(EVENT_DATES[0], '00:00');
@@ -1006,23 +1008,31 @@ footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,0.06); 
       // 開催期間中
       var isEventToday = EVENT_DATES.indexOf(today) !== -1;
       var isLastDay = today === lastDay;
-      // 事前予約は各日程の前日まで → まだ予約可能な未来の日程があるか
-      var reservable = futureDates.length > 0;
+      // 本日開催分の予約: 当日 RESERVE_CUTOFF_TIME まで受付可
+      var todayStillOpen = isEventToday && now < d(today, RESERVE_CUTOFF_TIME);
+      // 翌日以降の予約: その日の当日 RESERVE_CUTOFF_TIME まで受付可 (＝当日朝までは前日扱い)
+      var reservable = futureDates.length > 0 || todayStillOpen;
 
       elNum.style.display = 'none';
       elUnit.classList.add('is-message');
 
       if (isEventToday && isLastDay) {
-        // 最終日: 事前予約は前日で締切済み
+        // 最終日
         elLabel.textContent = '本日 最終日';
         elUnit.textContent = 'OPEN 11:00 〜 16:00';
-        elNote.innerHTML = '事前予約は昨日で締切ました。<br>当日はそのまま会場までお越しください（最終受付 15:00）';
+        if (todayStillOpen) {
+          elNote.innerHTML = '本日の事前予約は 9:00 まで受付中です';
+        } else {
+          elNote.innerHTML = '事前予約は本日 9:00 で締切ました。<br>当日はそのまま会場までお越しください（最終受付 15:00）';
+        }
       } else if (isEventToday) {
-        // 開催日その1: 翌日以降の事前予約はまだ可能
+        // 開催日その1
         elLabel.textContent = '本日 開催中';
         elUnit.textContent = 'OPEN 11:00 〜 16:00';
-        if (reservable) {
-          elNote.innerHTML = '明日 ' + fmtDate(futureDates[0]) + ' の事前予約はまだ受付中です（本日中まで）';
+        if (reservable && futureDates.length > 0) {
+          elNote.innerHTML = '明日 ' + fmtDate(futureDates[0]) + ' の事前予約は明日 9:00 まで受付中です';
+        } else if (reservable) {
+          elNote.innerHTML = '本日の事前予約は 9:00 まで受付中です';
         } else {
           elNote.textContent = '';
         }
@@ -1035,7 +1045,7 @@ footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,0.06); 
 
       if (elScar) {
         elScar.textContent = reservable
-          ? '明日開催分 事前予約 受付中'
+          ? '事前予約 受付中'
           : '事前予約は締切りました — 当日ご来場ください';
       }
 
