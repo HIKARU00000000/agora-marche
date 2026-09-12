@@ -251,6 +251,17 @@ section { padding: 100px 48px; }
 .countdown-num { font-family: 'Cormorant Garamond', serif; font-size: clamp(52px, 7vw, 76px); font-weight: 300; color: var(--cream); line-height: 1; }
 .countdown-unit { font-family: 'Noto Sans JP', sans-serif; font-size: 16px; font-weight: 300; color: rgba(250,246,241,0.5); }
 .countdown-sep { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300; color: rgba(196,168,130,0.35); line-height: 1; padding: 0 2px; }
+.reserve-gender-notice { margin-bottom: 28px; }
+.gender-notice-label { font-family: 'Montserrat', sans-serif; font-size: 10px; letter-spacing: 0.28em; color: rgba(250,246,241,0.55); text-transform: uppercase; margin-bottom: 14px; }
+.gender-badges { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+.gender-badge { display: inline-flex; align-items: center; gap: 10px; padding: 12px 22px; border-radius: 999px; font-family: 'Noto Sans JP', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 0.05em; border: 1px solid; }
+.gender-badge .gb-label { font-weight: 600; }
+.gender-badge .gb-status { font-size: 12px; letter-spacing: 0.1em; }
+.gender-badge .gb-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.gender-badge.is-closed { color: rgba(250,246,241,0.35); border-color: rgba(250,246,241,0.15); background: rgba(250,246,241,0.03); text-decoration: line-through; text-decoration-color: rgba(250,246,241,0.25); }
+.gender-badge.is-closed .gb-dot { background: rgba(250,246,241,0.25); }
+.gender-badge.is-open { color: #F5DDA8; border-color: rgba(196,168,130,0.55); background: rgba(196,168,130,0.12); }
+.gender-badge.is-open .gb-dot { background: #C4A862; box-shadow: 0 0 0 4px rgba(196,168,130,0.2); }
 .reserve-scarcity { margin-bottom: 48px; }
 .scarcity-bar-wrap { width: 220px; height: 1px; background: rgba(250,246,241,0.1); margin: 0 auto 14px; overflow: hidden; }
 .scarcity-bar { height: 100%; width: 78%; background: linear-gradient(to right, #C4A862, #E8D5A3); }
@@ -772,6 +783,21 @@ footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,0.06); 
         <div class="countdown-item"><span class="countdown-num" id="cd-days">--</span><span class="countdown-unit" id="cd-unit">日</span></div>
       </div>
       <p class="countdown-note" id="cd-note"></p>
+    </div>
+    <div class="reserve-gender-notice reveal">
+      <p class="gender-notice-label">現在の受付状況</p>
+      <div class="gender-badges">
+        <span class="gender-badge is-closed">
+          <span class="gb-dot"></span>
+          <span class="gb-label">男性</span>
+          <span class="gb-status">締切</span>
+        </span>
+        <span class="gender-badge is-open">
+          <span class="gb-dot"></span>
+          <span class="gb-label">女性</span>
+          <span class="gb-status">受付中</span>
+        </span>
+      </div>
     </div>
     <div class="reserve-scarcity reveal">
       <div class="scarcity-bar-wrap"><div class="scarcity-bar"></div></div>
