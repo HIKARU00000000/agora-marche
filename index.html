@@ -635,10 +635,12 @@ footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,0.06); 
 }
 .flow-photo-wrap img {
   display: block;
+  filter: blur(5px);
+  transform: scale(1.03);
   transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 .flow-photo-wrap:hover img {
-  transform: scale(1.04) translateY(-1%);
+  transform: scale(1.07) translateY(-1%);
 }
 
 /* 会場写真：縦画面スタッガードレイアウト */
